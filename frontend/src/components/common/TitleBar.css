@@ -1,0 +1,44 @@
+.title-bar {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 16px;
+  -webkit-app-region: drag;
+  border-bottom: 1px solid var(--border-thin);
+  flex-shrink: 0;
+}
+
+.title-bar-label {
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.title-bar-controls {
+  display: flex;
+  -webkit-app-region: no-drag;
+}
+
+.title-bar-controls button {
+  width: 44px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.title-bar-controls button:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+}
+
+.title-bar-controls button.close:hover {
+  background: var(--accent-error);
+  color: #05070a;
+}

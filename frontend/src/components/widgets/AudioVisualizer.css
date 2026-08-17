@@ -1,0 +1,23 @@
+.audio-viz {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 56px;
+  width: 100%;
+  max-width: 900px;
+  padding: 0 12px;
+}
+
+.audio-viz-bar {
+  width: 3px;
+  min-height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--accent-dim), var(--accent-2-dim));
+  transition: height 0.1s ease, background 0.3s ease;
+}
+
+.audio-viz-active .audio-viz-bar {
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
+  box-shadow: 0 0 6px var(--accent-dim);
+}

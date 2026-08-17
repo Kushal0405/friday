@@ -1,0 +1,5 @@
+.upcoming-empty {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  line-height: 1.6;
+}

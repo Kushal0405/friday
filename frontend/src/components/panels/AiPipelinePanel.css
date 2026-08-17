@@ -1,0 +1,36 @@
+.pipeline-online {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.pipeline-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pipeline-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+}
+
+.pipeline-icon {
+  color: var(--accent);
+  display: flex;
+  filter: drop-shadow(0 0 4px var(--accent-dim));
+}
+
+.pipeline-name {
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+.pipeline-value {
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}

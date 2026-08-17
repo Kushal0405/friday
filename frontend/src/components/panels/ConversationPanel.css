@@ -1,0 +1,52 @@
+.conv-empty {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.conv-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.conv-bubble {
+  max-width: 88%;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.conv-user {
+  align-self: flex-end;
+  margin-left: auto;
+  background: linear-gradient(135deg, rgba(255, 154, 79, 0.16), rgba(255, 154, 79, 0.06));
+  border: 1px solid rgba(255, 154, 79, 0.35);
+  color: var(--text-primary);
+}
+
+.conv-friday {
+  background: linear-gradient(135deg, rgba(79, 180, 255, 0.14), rgba(79, 180, 255, 0.04));
+  border: 1px solid var(--border-thin);
+  color: var(--text-primary);
+  box-shadow: var(--glow-soft);
+}
+
+.conv-label {
+  font-size: 8px;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.conv-label::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent);
+}

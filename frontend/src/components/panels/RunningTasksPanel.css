@@ -1,0 +1,42 @@
+.running-count {
+  font-size: 9px;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+}
+
+.running-empty {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.running-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.running-name {
+  font-size: 11px;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.running-bar-track {
+  height: 3px;
+  border-radius: 2px;
+  background: var(--border-thin);
+  overflow: hidden;
+}
+
+.running-bar-fill {
+  height: 100%;
+  width: 40%;
+  background: var(--accent);
+  border-radius: 2px;
+  animation: running-indeterminate 1.2s ease-in-out infinite;
+}
+
+@keyframes running-indeterminate {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
+}

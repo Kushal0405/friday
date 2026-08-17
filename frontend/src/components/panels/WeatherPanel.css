@@ -1,0 +1,56 @@
+.weather-empty {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.weather-location {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.weather-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.weather-icon {
+  color: var(--accent);
+  display: flex;
+}
+
+.weather-temp {
+  font-size: 26px;
+  font-weight: 300;
+  color: var(--text-primary);
+}
+
+.weather-condition {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin: 6px 0 12px;
+}
+
+.weather-details {
+  display: flex;
+  gap: 20px;
+}
+
+.weather-details > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.weather-detail-label {
+  font-size: 9px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.08em;
+}
+
+.weather-detail-value {
+  font-size: 11px;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}

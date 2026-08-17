@@ -1,0 +1,14 @@
+.settings-layout {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 0;
+}
+
+.settings-heading {
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin-bottom: 8px;
+}

@@ -1,0 +1,43 @@
+.recent-empty {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recent-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.recent-icon-ok {
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.recent-icon-bad {
+  color: var(--accent-error);
+  flex-shrink: 0;
+}
+
+.recent-info {
+  min-width: 0;
+}
+
+.recent-name {
+  font-size: 11px;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recent-time {
+  font-size: 9px;
+  color: var(--text-tertiary);
+}

@@ -1,0 +1,35 @@
+.sec-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sec-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+}
+
+.sec-name {
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+.sec-value {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+}
+
+.sec-icon-ok {
+  color: var(--accent);
+}
+
+.sec-icon-bad {
+  color: var(--accent-error);
+}
+
+.sec-icon-unknown {
+  color: var(--text-tertiary);
+}
