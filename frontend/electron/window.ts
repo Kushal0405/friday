@@ -21,9 +21,6 @@ export function createMainWindow(): BrowserWindow {
 
   win.on('ready-to-show', () => {
     win.show()
-    if (is.dev) {
-      win.webContents.openDevTools({ mode: 'detach' })
-    }
   })
 
   win.webContents.on('console-message', (_event, level, message, line, sourceId) => {

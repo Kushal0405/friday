@@ -37,6 +37,13 @@ class VoiceOrchestrator:
         self._enabled = False
         self._cancel_requested = False
         self._activation_lock = asyncio.Lock()
+        # The in-flight _handle_activation task (listen -> think -> speak), if
+        # any. Tracked so cancel_current() can actually abort it — without
+        # this, cancelling only reset the state machine while handle_text()
+        # kept running in the background, and a slow response (e.g. a 30-90s
+        # Claude CLI cold start) would land minutes later and fire stale TTS
+        # after the user had already moved on / started a new command.
+        self._activation_task: asyncio.Task | None = None
         # Guards against overlapping wake-word checks. A check can take
         # seconds (it runs the full Whisper model); without this, checking
         # blocks the loop that drains the mic queue, so audio backs up and
@@ -113,7 +120,7 @@ class VoiceOrchestrator:
         if heard and voice_state_machine.state == "IDLE":
             async with self._activation_lock:
                 if voice_state_machine.state == "IDLE":
-                    await self._handle_activation(skip_wake_state=False, preroll=preroll[-6:])
+                    await self._run_activation(skip_wake_state=False, preroll=preroll[-6:])
 
     async def trigger_manual_listen(self) -> None:
         """Entry point for the HUD's mic button / Ctrl+Alt+Space — starts the
@@ -121,7 +128,23 @@ class VoiceOrchestrator:
         if voice_state_machine.state != "IDLE":
             return
         async with self._activation_lock:
-            await self._handle_activation(skip_wake_state=True)
+            await self._run_activation(skip_wake_state=True)
+
+    async def _run_activation(
+        self, skip_wake_state: bool, preroll: list[np.ndarray] | None = None
+    ) -> None:
+        """Runs _handle_activation as a tracked, cancellable task so
+        cancel_current() can actually abort a slow in-flight response instead
+        of only resetting the state machine underneath it."""
+        task = asyncio.create_task(self._handle_activation(skip_wake_state, preroll))
+        self._activation_task = task
+        try:
+            await task
+        except asyncio.CancelledError:
+            pass
+        finally:
+            if self._activation_task is task:
+                self._activation_task = None
 
     async def listen_for_yes_no(self, prompt: str) -> bool | None:
         """Speaks a yes/no confirmation prompt and listens for a short spoken
@@ -148,6 +171,8 @@ class VoiceOrchestrator:
             return
         self._cancel_requested = True
         tts_service.stop()
+        if self._activation_task and not self._activation_task.done():
+            self._activation_task.cancel()
         await voice_state_machine.transition("CANCELLED")
         await asyncio.sleep(0.1)
         await voice_state_machine.transition("IDLE")
@@ -198,6 +223,10 @@ class VoiceOrchestrator:
         silence_blocks = 0
         silence_limit = int(SILENCE_TIMEOUT_SECONDS * SAMPLE_RATE / BLOCK_SIZE)
         max_blocks = int(MAX_LISTEN_SECONDS * SAMPLE_RATE / BLOCK_SIZE)
+        logger.info(
+            "LISTEN START: preroll_blocks=%d silence_limit=%d max_blocks=%d",
+            len(collected), silence_limit, max_blocks,
+        )
         # Preroll already contains the tail of the wake word being spoken, so
         # the mic is proven live — start the silence timer armed rather than
         # waiting for _new_ speech, or a quick trailing command right after
@@ -227,6 +256,10 @@ class VoiceOrchestrator:
                     silence_blocks += 1
 
                 if (heard_speech and silence_blocks >= silence_limit) or len(collected) >= max_blocks:
+                    logger.info(
+                        "LISTEN STOP: blocks=%d heard_speech=%s silence_blocks=%d silence_limit=%d max_blocks=%d",
+                        len(collected), heard_speech, silence_blocks, silence_limit, max_blocks,
+                    )
                     break
 
         if not heard_speech or self._cancel_requested:

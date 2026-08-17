@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useFridayStore } from '../../stores/fridayStore'
 import './AICore.css'
 
@@ -22,7 +22,20 @@ export function AICore() {
 
   return (
     <div className={`ai-core ai-core-${voiceState.toLowerCase()}`}>
-      {label && <div className="ai-core-state-pill">{label}</div>}
+      <AnimatePresence mode="wait">
+        {label && (
+          <motion.div
+            key={label}
+            className="ai-core-state-pill"
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 6 }}
+            transition={{ duration: 0.22, ease: 'easeOut' }}
+          >
+            {label}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <motion.div
         className="ai-core-ticks"
@@ -77,7 +90,18 @@ export function AICore() {
       <div className="ai-core-orbit-dot ai-core-orbit-dot-a" />
       <div className="ai-core-orbit-dot ai-core-orbit-dot-b" />
       <div className="ai-core-label">FRIDAY</div>
-      <div className="ai-core-status">{label}</div>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={label}
+          className="ai-core-status"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          {label}
+        </motion.div>
+      </AnimatePresence>
     </div>
   )
 }

@@ -27,6 +27,7 @@
   position: absolute;
   border-radius: 50%;
   border: 1.5px solid var(--border-active);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .ai-core-ring-outer {

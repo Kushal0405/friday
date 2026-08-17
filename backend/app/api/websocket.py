@@ -8,6 +8,7 @@ from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from app.core.logging import get_logger
 from app.events.bus import event_bus
 from app.system.broadcaster import last_known
+from app.voice.state_machine import voice_state_machine
 
 router = APIRouter()
 logger = get_logger("websocket")
@@ -18,6 +19,14 @@ async def friday_socket(websocket: WebSocket) -> None:
     await websocket.accept()
     logger.info("CLIENT CONNECTED")
     queue = event_bus.subscribe()
+
+    # A (re)connecting client has no way to know the current voice state
+    # otherwise — voice_state events are only published on transitions, so a
+    # client that connects (or reconnects mid-session, e.g. after the backend
+    # restarted) without this would default its UI to whatever it last saw,
+    # which can desync from the backend's true state and make the mic button
+    # send stale actions (e.g. "cancel" when the backend is actually IDLE).
+    await websocket.send_text(json.dumps({"type": "voice_state", "state": voice_state_machine.state}))
 
     for event in last_known.values():
         await websocket.send_text(json.dumps(event))

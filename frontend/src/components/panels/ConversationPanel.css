@@ -50,3 +50,7 @@
   background: var(--accent);
   box-shadow: 0 0 6px var(--accent);
 }
+
+.conv-text {
+  white-space: pre-wrap;
+}

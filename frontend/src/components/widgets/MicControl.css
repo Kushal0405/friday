@@ -17,12 +17,11 @@
   justify-content: center;
   cursor: pointer;
   box-shadow: 0 0 24px var(--accent-dim);
-  transition: box-shadow 0.2s ease, transform 0.15s ease;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .mic-button:hover {
   box-shadow: 0 0 34px var(--accent-dim);
-  transform: scale(1.03);
 }
 
 .mic-button-busy {
@@ -32,16 +31,22 @@
 }
 
 .mic-button-active {
+  border-color: var(--accent);
   animation: mic-pulse 1.2s ease-in-out infinite;
 }
 
 @keyframes mic-pulse {
   0%, 100% { box-shadow: 0 0 20px var(--accent-dim); }
-  50% { box-shadow: 0 0 34px var(--accent); }
+  50% { box-shadow: 0 0 36px var(--accent); }
 }
 
 .mic-hint {
   font-size: 10px;
   color: var(--text-tertiary);
   letter-spacing: 0.04em;
+  transition: color 0.2s ease;
+}
+
+.mic-hint-sep {
+  opacity: 0.5;
 }
