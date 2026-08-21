@@ -32,7 +32,7 @@ class WhisperWakeWordDetector(WakeWordDetector):
         self._wake_word = settings.wake_word.strip().lower()
 
     async def check(self, audio: np.ndarray) -> bool:
-        text = await transcribe(audio)
+        text = await transcribe(audio, fast=True)
         heard = self._wake_word in text.lower()
         if heard:
             logger.info("WAKE WORD DETECTED in: %r", text)
